@@ -39,6 +39,8 @@ def generate_schedule(lots: List[Lot], config) -> Tuple[List[ScheduleEntry], Dic
 		notes='Initial line reclean'
 	))
 	current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
+
+	# Prevent consecutive recleans: skip reclean if previous event is reclean
 	total_changeover = 0
 	total_reclean = 0
 	run_time = 0
@@ -48,8 +50,10 @@ def generate_schedule(lots: List[Lot], config) -> Tuple[List[ScheduleEntry], Dic
 	for group_idx, t in enumerate(group_order):
 		lots_in_group = type_groups[t]
 		for i, lot in enumerate(lots_in_group):
-			# Insert reclean if needed
-			if (group_idx == 0 and i == 0) or hours_since_reclean >= config.MAX_CONTINUOUS_RUN_HOURS:
+			# Insert reclean only if needed and not for the first lot
+			is_last_lot = (group_idx == len(group_order) - 1) and (i == len(lots_in_group) - 1)
+			is_first_lot = (group_idx == 0 and i == 0)
+			if (not is_first_lot and hours_since_reclean >= config.MAX_CONTINUOUS_RUN_HOURS) and not is_last_lot:
 				schedule.append(ScheduleEntry(
 					event_type='reclean',
 					start_time=current_time,
@@ -60,6 +64,7 @@ def generate_schedule(lots: List[Lot], config) -> Tuple[List[ScheduleEntry], Dic
 				current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
 				total_reclean += config.RECLEAN_CYCLE_HOURS * 60
 				hours_since_reclean = 0
+			# ...existing code...
 
 			# Insert changeover if needed
 			if not (group_idx == 0 and i == 0):

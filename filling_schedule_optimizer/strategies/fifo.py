@@ -26,6 +26,8 @@ def generate_schedule(lots: List[Lot], config) -> Tuple[List[ScheduleEntry], Dic
 		notes='Initial line reclean'
 	))
 	current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
+
+	# Prevent consecutive recleans: skip reclean if previous event is reclean
 	total_changeover = 0
 	total_reclean = 0
 	run_time = 0
@@ -33,8 +35,8 @@ def generate_schedule(lots: List[Lot], config) -> Tuple[List[ScheduleEntry], Dic
 	hours_since_reclean = 0
 
 	for i, lot in enumerate(lots):
-		# Insert reclean if needed
-		if i == 0 or hours_since_reclean >= config.MAX_CONTINUOUS_RUN_HOURS:
+		# Insert reclean only if needed and not for the first lot
+		if (hours_since_reclean >= config.MAX_CONTINUOUS_RUN_HOURS) and i < len(lots) - 1 and i != 0:
 			schedule.append(ScheduleEntry(
 				event_type='reclean',
 				start_time=current_time,
@@ -45,6 +47,7 @@ def generate_schedule(lots: List[Lot], config) -> Tuple[List[ScheduleEntry], Dic
 			current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
 			total_reclean += config.RECLEAN_CYCLE_HOURS * 60
 			hours_since_reclean = 0
+		# ...existing code...
 
 		# Insert changeover if needed
 		if last_type is not None:

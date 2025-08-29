@@ -45,6 +45,8 @@ def batch_binpack_schedule(lots: List[Lot], config=config) -> Tuple[List[Schedul
         notes='Initial line reclean'
     ))
     current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
+
+    # Prevent consecutive recleans: skip reclean if previous event is reclean
     clean_window_limit = config.BATCH_BINPACK_CLEAN_WINDOW_HOURS
     while any(grouped.values()):
         current_window = []
@@ -103,17 +105,63 @@ def batch_binpack_schedule(lots: List[Lot], config=config) -> Tuple[List[Schedul
                 notes=f'Filling lot {lot.id}'
             ))
             current_time += datetime.timedelta(minutes=fill_minutes)
-        # Add reclean at end of window
-        schedule.append(ScheduleEntry(
-            event_type='reclean',
-            start_time=current_time,
-            end_time=current_time + datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS),
-            duration_minutes=config.RECLEAN_CYCLE_HOURS * 60,
-            notes='Line reclean'
-        ))
-        current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
-    # 4. Local search and swap improvements (optional, not implemented for brevity)
-    # 5. Clustering small lots after type changeover (optional, not implemented for brevity)
+        # Add reclean at end of window only if there are lots remaining
+        if any(grouped.values()):
+            schedule.append(ScheduleEntry(
+                event_type='reclean',
+                start_time=current_time,
+                end_time=current_time + datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS),
+                duration_minutes=config.RECLEAN_CYCLE_HOURS * 60,
+                notes='Line reclean'
+            ))
+            current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
+    # 4. Local search and swap improvements (adjacent swaps)
+    def objective(sched):
+        # Minimize makespan, changeover, and reclean time
+        makespan = (sched[-1].end_time - sched[0].start_time).total_seconds() / 60 if sched else 0
+        changeover = sum(e.duration_minutes or 0 for e in sched if e.event_type == 'changeover')
+        reclean = sum(e.duration_minutes or 0 for e in sched if e.event_type == 'reclean')
+        return makespan + changeover + reclean
+
+    # Only consider fill events for swapping
+    fill_indices = [i for i, e in enumerate(schedule) if e.event_type == 'fill']
+    improved = True
+    while improved:
+        improved = False
+        for idx in range(len(fill_indices) - 1):
+            i, j = fill_indices[idx], fill_indices[idx + 1]
+            # Swap two adjacent fills and rebuild the schedule window if it improves objective
+            new_schedule = schedule[:]
+            new_schedule[i], new_schedule[j] = new_schedule[j], new_schedule[i]
+            if objective(new_schedule) < objective(schedule):
+                schedule = new_schedule
+                improved = True
+                break  # Restart after improvement
+        if improved:
+            # Recompute fill_indices after a swap
+            fill_indices = [i for i, e in enumerate(schedule) if e.event_type == 'fill']
+
+    # 5. Clustering small lots after type changeover
+    # Move small lots of the same type after a type changeover together
+    clustered_schedule = []
+    i = 0
+    while i < len(schedule):
+        e = schedule[i]
+        clustered_schedule.append(e)
+        if e.event_type == 'changeover':
+            # Find small lots of the same type immediately after changeover
+            j = i + 1
+            small_lots = []
+            while j < len(schedule) and schedule[j].event_type == 'fill' and schedule[j].lot_type == e.lot_type and schedule[j].duration_minutes <= config.BATCH_BINPACK_SMALL_LOT_THRESHOLD / config.FILLING_RATE_VIALS_PER_MIN:
+                small_lots.append(schedule[j])
+                j += 1
+            # Sort small lots by size ascending (optional)
+            small_lots.sort(key=lambda x: x.duration_minutes)
+            clustered_schedule.extend(small_lots)
+            i = j - 1 + len(small_lots)
+        i += 1
+    schedule = clustered_schedule
+
     # Metrics
     start_time = schedule[0].start_time if schedule else now
     end_time = schedule[-1].end_time if schedule else now
