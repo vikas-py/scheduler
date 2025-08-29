@@ -1,7 +1,3 @@
-It's an excellent idea to create a comprehensive design document to formalize our plans. Since you mentioned Google Docs, I'll provide a full, in-depth design specification that you can copy and paste directly into a document to begin the project.
-
------
-
 ### **Design Specification: Filling Line Scheduling Tool**
 
 #### 1\. Introduction
