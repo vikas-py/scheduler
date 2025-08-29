@@ -1,357 +1,66 @@
-
-	<html>
-	<head>
-		<title>Filling Line Schedule Report</title>
-		<style>
-			body { font-family: Arial, sans-serif; margin: 40px; }
-			h1 { color: #2c3e50; }
-			table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
-			th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-			th { background: #f4f4f4; }
-			tr:nth-child(even) { background: #fafafa; }
-		</style>
-	</head>
-	<body>
-		<h1>Filling Line Schedule Report</h1>
-		<h2>Summary KPIs</h2>
-		<table>
-			<tr><th>Total Schedule Time (hours)</th><th>Total Changeover Time (hours)</th><th>Total Reclean Time (hours)</th><th>Total Filling Time (hours)</th></tr>
-			<tr><td>509.16</td><td>84.0</td><td>72.0</td><td>353.16</td></tr>
-		</table>
-		<h2>Detailed Schedule</h2>
-		<table>
-			<tr>
-				<th>Event</th>
-				<th>Lot ID</th>
-				<th>Lot Type</th>
-				<th>Start Time</th>
-				<th>End Time</th>
-				<th>Duration (hours)</th>
-				<th>Notes</th>
-			</tr>
-	
-			<tr>
-				<td>reclean</td>
-				<td></td>
-				<td></td>
-				<td>2025-08-29 08:27</td>
-				<td>2025-08-30 08:27</td>
-				<td>24.0</td>
-				<td>Line reclean</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>C6</td>
-				<td>VialH</td>
-				<td>2025-08-30 08:27</td>
-				<td>2025-08-30 08:57</td>
-				<td>0.5</td>
-				<td>Filling lot C6</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialE</td>
-				<td>2025-08-30 08:57</td>
-				<td>2025-08-30 16:57</td>
-				<td>8.0</td>
-				<td>Changeover to VialE</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>C1</td>
-				<td>VialE</td>
-				<td>2025-08-30 16:57</td>
-				<td>2025-08-30 17:57</td>
-				<td>1.0</td>
-				<td>Filling lot C1</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialE</td>
-				<td>2025-08-30 17:57</td>
-				<td>2025-08-30 21:57</td>
-				<td>4.0</td>
-				<td>Changeover to VialE</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>A5</td>
-				<td>VialE</td>
-				<td>2025-08-30 21:57</td>
-				<td>2025-08-30 23:27</td>
-				<td>1.51</td>
-				<td>Filling lot A5</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-08-30 23:27</td>
-				<td>2025-08-31 07:27</td>
-				<td>8.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>C3</td>
-				<td>VialH</td>
-				<td>2025-08-31 07:27</td>
-				<td>2025-08-31 09:58</td>
-				<td>2.51</td>
-				<td>Filling lot C3</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialE</td>
-				<td>2025-08-31 09:58</td>
-				<td>2025-08-31 17:58</td>
-				<td>8.0</td>
-				<td>Changeover to VialE</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>A1</td>
-				<td>VialE</td>
-				<td>2025-08-31 17:58</td>
-				<td>2025-08-31 22:59</td>
-				<td>5.02</td>
-				<td>Filling lot A1</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-08-31 22:59</td>
-				<td>2025-09-01 06:59</td>
-				<td>8.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>C2</td>
-				<td>VialH</td>
-				<td>2025-09-01 06:59</td>
-				<td>2025-09-01 12:00</td>
-				<td>5.02</td>
-				<td>Filling lot C2</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialE</td>
-				<td>2025-09-01 12:00</td>
-				<td>2025-09-01 20:00</td>
-				<td>8.0</td>
-				<td>Changeover to VialE</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>C7</td>
-				<td>VialE</td>
-				<td>2025-09-01 20:00</td>
-				<td>2025-09-02 08:33</td>
-				<td>12.55</td>
-				<td>Filling lot C7</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-09-02 08:33</td>
-				<td>2025-09-02 16:33</td>
-				<td>8.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>B2</td>
-				<td>VialH</td>
-				<td>2025-09-02 16:33</td>
-				<td>2025-09-03 17:39</td>
-				<td>25.1</td>
-				<td>Filling lot B2</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-09-03 17:39</td>
-				<td>2025-09-03 21:39</td>
-				<td>4.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>C5</td>
-				<td>VialH</td>
-				<td>2025-09-03 21:39</td>
-				<td>2025-09-05 05:02</td>
-				<td>31.38</td>
-				<td>Filling lot C5</td>
-			</tr>
-		
-			<tr>
-				<td>reclean</td>
-				<td></td>
-				<td></td>
-				<td>2025-09-05 05:02</td>
-				<td>2025-09-06 05:02</td>
-				<td>24.0</td>
-				<td>Line reclean</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-09-06 05:02</td>
-				<td>2025-09-06 09:02</td>
-				<td>4.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>B1</td>
-				<td>VialH</td>
-				<td>2025-09-06 09:02</td>
-				<td>2025-09-07 20:10</td>
-				<td>35.14</td>
-				<td>Filling lot B1</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-09-07 20:10</td>
-				<td>2025-09-08 00:10</td>
-				<td>4.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>A3</td>
-				<td>VialH</td>
-				<td>2025-09-08 00:10</td>
-				<td>2025-09-09 13:49</td>
-				<td>37.65</td>
-				<td>Filling lot A3</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-09-09 13:49</td>
-				<td>2025-09-09 17:49</td>
-				<td>4.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>B3</td>
-				<td>VialH</td>
-				<td>2025-09-09 17:49</td>
-				<td>2025-09-11 09:59</td>
-				<td>40.16</td>
-				<td>Filling lot B3</td>
-			</tr>
-		
-			<tr>
-				<td>reclean</td>
-				<td></td>
-				<td></td>
-				<td>2025-09-11 09:59</td>
-				<td>2025-09-12 09:59</td>
-				<td>24.0</td>
-				<td>Line reclean</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-09-12 09:59</td>
-				<td>2025-09-12 13:59</td>
-				<td>4.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>A2</td>
-				<td>VialH</td>
-				<td>2025-09-12 13:59</td>
-				<td>2025-09-14 11:10</td>
-				<td>45.18</td>
-				<td>Filling lot A2</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialH</td>
-				<td>2025-09-14 11:10</td>
-				<td>2025-09-14 15:10</td>
-				<td>4.0</td>
-				<td>Changeover to VialH</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>A4</td>
-				<td>VialH</td>
-				<td>2025-09-14 15:10</td>
-				<td>2025-09-16 17:22</td>
-				<td>50.2</td>
-				<td>Filling lot A4</td>
-			</tr>
-		
-			<tr>
-				<td>changeover</td>
-				<td></td>
-				<td>VialE</td>
-				<td>2025-09-16 17:22</td>
-				<td>2025-09-17 01:22</td>
-				<td>8.0</td>
-				<td>Changeover to VialE</td>
-			</tr>
-		
-			<tr>
-				<td>fill</td>
-				<td>C4</td>
-				<td>VialE</td>
-				<td>2025-09-17 01:22</td>
-				<td>2025-09-19 13:36</td>
-				<td>60.24</td>
-				<td>Filling lot C4</td>
-			</tr>
-		
-		</table>
-		<p>Report generated on: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}</p>
-	</body>
-	</html>
-	
+<html>
+<head>
+<title>Filling Line Schedule Report</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; }
+h1 { color: #2c3e50; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+th { background: #f4f4f4; }
+tr:nth-child(even) { background: #fafafa; }
+</style>
+</head>
+<body>
+<h1>Filling Line Schedule Report</h1>
+<h2>Summary KPIs</h2>
+<table>
+<tr><th>Number of Lots Scheduled</th><th>Number of Changeovers</th><th>Number of Recleans</th><th>Average Lot Fill Time (hours)</th><th>Maximum Lot Fill Time (hours)</th><th>Minimum Lot Fill Time (hours)</th><th>Utilization (%)</th><th>Total Idle Time (hours)</th><th>Same-Type Changeovers</th><th>Diff-Type Changeovers</th><th>Same-Type Changeover Time (hours)</th><th>Diff-Type Changeover Time (hours)</th><th>First Start Time</th><th>Last End Time</th></tr>
+<tr><td>15</td><td>14</td><td>3</td><td>23.54</td><td>60.24</td><td>0.5</td><td>100.0</td><td>0.0</td><td>0</td><td>0</td><td></td><td></td><td>2025-08-29 09:58</td><td>2025-09-19 15:08</td></tr>
+</table>
+<h2>Detailed Schedule</h2>
+<table>
+<tr>
+<th>Event</th>
+<th>Lot ID</th>
+<th>Lot Type</th>
+<th>Start Time</th>
+<th>End Time</th>
+<th>Duration (hours)</th>
+<th>Notes</th>
+</tr>
+<tr><td>reclean</td><td></td><td></td><td>2025-08-29 09:58</td><td>2025-08-30 09:58</td><td>24.0</td><td>Line reclean</td></tr>
+<tr><td>fill</td><td>C6</td><td>VialH</td><td>2025-08-30 09:58</td><td>2025-08-30 10:29</td><td>0.5</td><td>Filling lot C6</td></tr>
+<tr><td>changeover</td><td></td><td>VialE</td><td>2025-08-30 10:29</td><td>2025-08-30 18:29</td><td>8.0</td><td>Changeover to VialE</td></tr>
+<tr><td>fill</td><td>C1</td><td>VialE</td><td>2025-08-30 18:29</td><td>2025-08-30 19:29</td><td>1.0</td><td>Filling lot C1</td></tr>
+<tr><td>changeover</td><td></td><td>VialE</td><td>2025-08-30 19:29</td><td>2025-08-30 23:29</td><td>4.0</td><td>Changeover to VialE</td></tr>
+<tr><td>fill</td><td>A5</td><td>VialE</td><td>2025-08-30 23:29</td><td>2025-08-31 00:59</td><td>1.51</td><td>Filling lot A5</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-08-31 00:59</td><td>2025-08-31 08:59</td><td>8.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>C3</td><td>VialH</td><td>2025-08-31 08:59</td><td>2025-08-31 11:30</td><td>2.51</td><td>Filling lot C3</td></tr>
+<tr><td>changeover</td><td></td><td>VialE</td><td>2025-08-31 11:30</td><td>2025-08-31 19:30</td><td>8.0</td><td>Changeover to VialE</td></tr>
+<tr><td>fill</td><td>A1</td><td>VialE</td><td>2025-08-31 19:30</td><td>2025-09-01 00:31</td><td>5.02</td><td>Filling lot A1</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-09-01 00:31</td><td>2025-09-01 08:31</td><td>8.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>C2</td><td>VialH</td><td>2025-09-01 08:31</td><td>2025-09-01 13:32</td><td>5.02</td><td>Filling lot C2</td></tr>
+<tr><td>changeover</td><td></td><td>VialE</td><td>2025-09-01 13:32</td><td>2025-09-01 21:32</td><td>8.0</td><td>Changeover to VialE</td></tr>
+<tr><td>fill</td><td>C7</td><td>VialE</td><td>2025-09-01 21:32</td><td>2025-09-02 10:05</td><td>12.55</td><td>Filling lot C7</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-09-02 10:05</td><td>2025-09-02 18:05</td><td>8.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>B2</td><td>VialH</td><td>2025-09-02 18:05</td><td>2025-09-03 19:11</td><td>25.1</td><td>Filling lot B2</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-09-03 19:11</td><td>2025-09-03 23:11</td><td>4.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>C5</td><td>VialH</td><td>2025-09-03 23:11</td><td>2025-09-05 06:34</td><td>31.38</td><td>Filling lot C5</td></tr>
+<tr><td>reclean</td><td></td><td></td><td>2025-09-05 06:34</td><td>2025-09-06 06:34</td><td>24.0</td><td>Line reclean</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-09-06 06:34</td><td>2025-09-06 10:34</td><td>4.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>B1</td><td>VialH</td><td>2025-09-06 10:34</td><td>2025-09-07 21:42</td><td>35.14</td><td>Filling lot B1</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-09-07 21:42</td><td>2025-09-08 01:42</td><td>4.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>A3</td><td>VialH</td><td>2025-09-08 01:42</td><td>2025-09-09 15:21</td><td>37.65</td><td>Filling lot A3</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-09-09 15:21</td><td>2025-09-09 19:21</td><td>4.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>B3</td><td>VialH</td><td>2025-09-09 19:21</td><td>2025-09-11 11:31</td><td>40.16</td><td>Filling lot B3</td></tr>
+<tr><td>reclean</td><td></td><td></td><td>2025-09-11 11:31</td><td>2025-09-12 11:31</td><td>24.0</td><td>Line reclean</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-09-12 11:31</td><td>2025-09-12 15:31</td><td>4.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>A2</td><td>VialH</td><td>2025-09-12 15:31</td><td>2025-09-14 12:42</td><td>45.18</td><td>Filling lot A2</td></tr>
+<tr><td>changeover</td><td></td><td>VialH</td><td>2025-09-14 12:42</td><td>2025-09-14 16:42</td><td>4.0</td><td>Changeover to VialH</td></tr>
+<tr><td>fill</td><td>A4</td><td>VialH</td><td>2025-09-14 16:42</td><td>2025-09-16 18:54</td><td>50.2</td><td>Filling lot A4</td></tr>
+<tr><td>changeover</td><td></td><td>VialE</td><td>2025-09-16 18:54</td><td>2025-09-17 02:54</td><td>8.0</td><td>Changeover to VialE</td></tr>
+<tr><td>fill</td><td>C4</td><td>VialE</td><td>2025-09-17 02:54</td><td>2025-09-19 15:08</td><td>60.24</td><td>Filling lot C4</td></tr>
+</table>
+<p>Report generated on: 2025-08-29 09:58</p>
+</body>
+</html>
