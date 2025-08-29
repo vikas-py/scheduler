@@ -13,4 +13,4 @@ DATA_FILE = "filling_schedule_optimizer/data/example_lots.csv"
 REPORT_FILE = "filling_schedule_optimizer/reports/schedule_report.html"
 
 # Scheduling strategy: 'hybrid_heuristic', 'spt_only', or 'fifo'
-SCHEDULING_STRATEGY = "hybrid_heuristic"
+SCHEDULING_STRATEGY = "spt_only"
