@@ -24,8 +24,21 @@ def generate_schedule(lots: List[Lot], config) -> Tuple[List[ScheduleEntry], Dic
 	group_order = sorted(type_groups.keys(), key=lambda t: -sum(lot.vials for lot in type_groups[t]))
 
 	schedule = []
-	now = datetime.datetime.now()
+	# Use configured start datetime if set
+	if hasattr(config, 'SCHEDULE_START_DATETIME') and config.SCHEDULE_START_DATETIME:
+		now = datetime.datetime.strptime(config.SCHEDULE_START_DATETIME, '%Y-%m-%d %H:%M')
+	else:
+		now = datetime.datetime.now()
 	current_time = now
+	# Always start with a reclean
+	schedule.append(ScheduleEntry(
+		event_type='reclean',
+		start_time=current_time,
+		end_time=current_time + datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS),
+		duration_minutes=config.RECLEAN_CYCLE_HOURS * 60,
+		notes='Initial line reclean'
+	))
+	current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
 	total_changeover = 0
 	total_reclean = 0
 	run_time = 0

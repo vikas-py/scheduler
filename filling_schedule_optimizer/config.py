@@ -24,3 +24,7 @@ REPORT_FILE = "filling_schedule_optimizer/reports/schedule_report.html"
 
 # Scheduling strategy: 'hybrid_heuristic', 'spt_only', or 'fifo'
 SCHEDULING_STRATEGY = "spt_only"
+
+# Schedule start datetime (ISO format: 'YYYY-MM-DD HH:MM')
+# If None, uses current datetime
+SCHEDULE_START_DATETIME = '2025-09-01 08:00'  # e.g., '2025-09-01 08:00'

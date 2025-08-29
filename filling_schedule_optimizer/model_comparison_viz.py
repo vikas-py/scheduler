@@ -198,6 +198,17 @@ if kpi_rows:
         html.append("<tr>" + "".join(f"<td>{row[col]}</td>" for col in df_kpi.columns) + "</tr>")
     html.append("</table>")
 
+
+# Add detailed schedule tables for each model
+for idx, (name, _) in enumerate(strategies):
+    sched = model_schedules[idx]
+    html.append(f"<h2>Schedule Details: {name}</h2>")
+    html.append("<table>")
+    html.append("<tr>" + "".join(f"<th>{col}</th>" for col in sched.columns) + "</tr>")
+    for _, row in sched.iterrows():
+        html.append("<tr>" + "".join(f"<td>{row[col]}</td>" for col in sched.columns) + "</tr>")
+    html.append("</table>")
+
 html.append(f"<p>Report generated on: {datetime.now().strftime('%Y-%m-%d %H:%M')}</p>")
 html.append("</body></html>")
 

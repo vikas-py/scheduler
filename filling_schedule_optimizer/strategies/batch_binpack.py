@@ -30,8 +30,21 @@ def batch_binpack_schedule(lots: List[Lot], config=config) -> Tuple[List[Schedul
         grouped[t].sort(key=lambda l: -l.vials)
     # 3. Clean window bin-packing
     schedule = []
-    now = datetime.datetime.now()
+    # Use configured start datetime if set
+    if hasattr(config, 'SCHEDULE_START_DATETIME') and config.SCHEDULE_START_DATETIME:
+        now = datetime.datetime.strptime(config.SCHEDULE_START_DATETIME, '%Y-%m-%d %H:%M')
+    else:
+        now = datetime.datetime.now()
     current_time = now
+    # Always start with a reclean
+    schedule.append(ScheduleEntry(
+        event_type='reclean',
+        start_time=current_time,
+        end_time=current_time + datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS),
+        duration_minutes=config.RECLEAN_CYCLE_HOURS * 60,
+        notes='Initial line reclean'
+    ))
+    current_time += datetime.timedelta(hours=config.RECLEAN_CYCLE_HOURS)
     clean_window_limit = config.BATCH_BINPACK_CLEAN_WINDOW_HOURS
     while any(grouped.values()):
         current_window = []
