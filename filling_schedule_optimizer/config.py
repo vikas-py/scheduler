@@ -8,6 +8,16 @@ CHANGEOVER_DIFF_TYPE_HOURS = 8
 RECLEAN_CYCLE_HOURS = 24
 MAX_CONTINUOUS_RUN_HOURS = 120
 
+# --- Batch/Bin-Packing Strategy Settings ---
+# Maximum allowed time (in hours) for a clean window/bin before reclean is required
+BATCH_BINPACK_CLEAN_WINDOW_HOURS = 120
+# Enable local search improvement (swap lots to reduce changeover)
+BATCH_BINPACK_LOCAL_SEARCH = True
+# Enable clustering of small lots after type changeover
+BATCH_BINPACK_CLUSTER_SMALL_LOTS = True
+# Minimum lot size (vials) to consider as 'small' for clustering
+BATCH_BINPACK_SMALL_LOT_THRESHOLD = 50000
+
 # File paths
 DATA_FILE = "filling_schedule_optimizer/data/example_lots.csv"
 REPORT_FILE = "filling_schedule_optimizer/reports/schedule_report.html"

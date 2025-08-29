@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from filling_schedule_optimizer.strategies import fifo, spt_only, hybrid_heuristic
+from filling_schedule_optimizer.strategies import fifo, spt_only, hybrid_heuristic, batch_binpack
 from filling_schedule_optimizer import models, config
 from datetime import datetime
 
@@ -24,6 +24,7 @@ strategies = [
     ("FIFO", fifo.generate_schedule),
     ("SPT Only", spt_only.generate_schedule),
     ("Hybrid Heuristic", hybrid_heuristic.generate_schedule),
+    ("Batch BinPack", batch_binpack.batch_binpack_schedule),
 ]
 
 
