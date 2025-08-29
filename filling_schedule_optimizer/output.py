@@ -68,6 +68,9 @@ def generate_html_report(schedule: List[ScheduleEntry], metrics: Dict, output_pa
             diff_type_time_min += dur
         else:
             # If unspecified, just count it under changeovers but not in same/diff buckets
+            # Merge KPIs for display (must be before HTML string)
+            all_kpis = {**metrics_hrs, **extra_kpis}
+
             html = f"""
         <html>
         <head>
