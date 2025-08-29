@@ -9,6 +9,15 @@ def generate_html_report(schedule: List[ScheduleEntry], metrics: Dict, output_pa
 	"""
 	Generate an HTML report summarizing the schedule and metrics.
 	"""
+	# Convert all metrics from minutes to hours and improve KPI labels
+	kpi_map = {
+		'Total Time (min)': 'Total Schedule Time (hours)',
+		'Total Changeover Time (min)': 'Total Changeover Time (hours)',
+		'Total Reclean Time (min)': 'Total Reclean Time (hours)',
+		'Total Fill Time (min)': 'Total Filling Time (hours)'
+	}
+	metrics_hrs = {kpi_map.get(k, k): round(v/60, 2) for k, v in metrics.items()}
+
 	html = f"""
 	<html>
 	<head>
@@ -24,10 +33,10 @@ def generate_html_report(schedule: List[ScheduleEntry], metrics: Dict, output_pa
 	</head>
 	<body>
 		<h1>Filling Line Schedule Report</h1>
-		<h2>Summary Metrics</h2>
+		<h2>Summary KPIs</h2>
 		<table>
-			<tr>{''.join(f'<th>{k}</th>' for k in metrics.keys())}</tr>
-			<tr>{''.join(f'<td>{round(v,2)}</td>' for v in metrics.values())}</tr>
+			<tr>{''.join(f'<th>{k}</th>' for k in metrics_hrs.keys())}</tr>
+			<tr>{''.join(f'<td>{v}</td>' for v in metrics_hrs.values())}</tr>
 		</table>
 		<h2>Detailed Schedule</h2>
 		<table>
@@ -37,11 +46,12 @@ def generate_html_report(schedule: List[ScheduleEntry], metrics: Dict, output_pa
 				<th>Lot Type</th>
 				<th>Start Time</th>
 				<th>End Time</th>
-				<th>Duration (min)</th>
+				<th>Duration (hours)</th>
 				<th>Notes</th>
 			</tr>
 	"""
 	for entry in schedule:
+		duration_hrs = round(entry.duration_minutes/60, 2) if entry.duration_minutes else ''
 		html += f"""
 			<tr>
 				<td>{entry.event_type}</td>
@@ -49,7 +59,7 @@ def generate_html_report(schedule: List[ScheduleEntry], metrics: Dict, output_pa
 				<td>{entry.lot_type or ''}</td>
 				<td>{entry.start_time.strftime('%Y-%m-%d %H:%M') if entry.start_time else ''}</td>
 				<td>{entry.end_time.strftime('%Y-%m-%d %H:%M') if entry.end_time else ''}</td>
-				<td>{round(entry.duration_minutes,2) if entry.duration_minutes else ''}</td>
+				<td>{duration_hrs}</td>
 				<td>{entry.notes or ''}</td>
 			</tr>
 		"""
