@@ -68,57 +68,67 @@ def generate_html_report(schedule: List[ScheduleEntry], metrics: Dict, output_pa
             diff_type_time_min += dur
         else:
             # If unspecified, just count it under changeovers but not in same/diff buckets
-            pass
-
-    # Build KPI dict with schedule-derived values first
-    derived_kpis: Dict[str, object] = {
-        "Number of Lots Scheduled": len(fills),
-        "Number of Changeovers": len(changeovers),
-        "Number of Recleans": len(recleans),
-        "Average Lot Fill Time (hours)": avg_fill,
-        "Maximum Lot Fill Time (hours)": max_fill,
-        "Minimum Lot Fill Time (hours)": min_fill,
-        "Utilization (%)": utilization,
-        "Total Idle Time (hours)": idle_time_hours,
-        "Same-Type Changeovers": same_type,
-        "Diff-Type Changeovers": diff_type,
-        "Same-Type Changeover Time (hours)": round(same_type_time_min / 60.0, 2) if same_type_time_min else "",
-        "Diff-Type Changeover Time (hours)": round(diff_type_time_min / 60.0, 2) if diff_type_time_min else "",
-        "First Start Time": first_start.strftime("%Y-%m-%d %H:%M") if first_start else "",
-        "Last End Time": last_end.strftime("%Y-%m-%d %H:%M") if last_end else "",
-    # If `metrics` contains minute-based entries you want auto-converted, put them here:
-            total_fill_time_min = sum(e.duration_minutes for e in fills if e.duration_minutes)
-            total_time_min = 0
-            if schedule:
-                first_start = min((e.start_time for e in schedule if e.start_time), default=None)
-                last_end = max((e.end_time for e in schedule if e.end_time), default=None)
-                if first_start and last_end:
-                    total_time_min = (last_end - first_start).total_seconds() / 60
-            else:
-                first_start = last_end = None
-            utilization = round((total_fill_time_min / total_time_min) * 100, 2) if total_time_min else 0
-            idle_time = round((total_time_min - total_fill_time_min) / 60, 2) if total_time_min else 0
-            # Changeover breakdown
-            same_type = sum(1 for e in changeover_entries if e.duration_minutes and abs(e.duration_minutes - 4*60) < 1e-2)
-            diff_type = sum(1 for e in changeover_entries if e.duration_minutes and abs(e.duration_minutes - 8*60) < 1e-2)
-            same_type_time = round(sum(e.duration_minutes for e in changeover_entries if e.duration_minutes and abs(e.duration_minutes - 4*60) < 1e-2)/60, 2)
-            diff_type_time = round(sum(e.duration_minutes for e in changeover_entries if e.duration_minutes and abs(e.duration_minutes - 8*60) < 1e-2)/60, 2)
-    minute_to_hour_keys = {
-        # metrics keys on the left → label in the final table on the right
-        "avg_fill_minutes": "Average Lot Fill Time (hours)",
-        "max_fill_minutes": "Maximum Lot Fill Time (hours)",
-        "min_fill_minutes": "Minimum Lot Fill Time (hours)",
-        "idle_time_minutes": "Total Idle Time (hours)",
-        "same_changeover_minutes": "Same-Type Changeover Time (hours)",
-        "diff_changeover_minutes": "Diff-Type Changeover Time (hours)",
-    }
-
-    merged_kpis = derived_kpis.copy()
-
-    # Convert and inject any minute-based metrics if present
-    for m_key, label in minute_to_hour_keys.items():
-        if m_key in metrics and metrics[m_key] is not None:
-            merged_kpis[label] = _safe_hours(metrics[m_key])
+            html = f"""
+        <html>
+        <head>
+            <title>Filling Line Schedule Report</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; margin: 40px; }}
+                h1 {{ color: #2c3e50; }}
+                table {{ border-collapse: collapse; width: 100%; margin-bottom: 30px; }}
+                th, td {{ border: 1px solid #ccc; padding: 8px; text-align: left; }}
+                th {{ background: #f4f4f4; }}
+                tr:nth-child(even) {{ background: #fafafa; }}
+            </style>
+        </head>
+        <body>
+            <h1>Filling Line Schedule Report</h1>
+            <h2>Summary KPIs</h2>
+            <table>
+                <tr>{''.join(f'<th>{k}</th>' for k in all_kpis.keys())}</tr>
+                <tr>{''.join(f'<td>{v}</td>' for v in all_kpis.values())}</tr>
+            </table>
+            <h2>Detailed Schedule</h2>
+            <table>
+                <tr>
+                    <th>Event</th>
+                    <th>Lot ID</th>
+                    <th>Lot Type</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Duration (hours)</th>
+                    <th>Notes</th>
+                </tr>
+        """
+            for entry in schedule:
+                # Match the requested format: reclean/changeover may have empty Lot ID, Lot Type, etc.
+                event = entry.event_type or ''
+                lot_id = entry.lot_id or ''
+                lot_type = entry.lot_type or ''
+                # Use the requested time format: YYYY-MM-DD HH:MM (with leading zeroes)
+                time_fmt = '%Y-%m-%d %H:%M'
+                start_time = entry.start_time.strftime(time_fmt) if entry.start_time else ''
+                end_time = entry.end_time.strftime(time_fmt) if entry.end_time else ''
+                # Always show duration in hours, rounded to 2 decimals
+                duration_hrs = f"{round(entry.duration_minutes/60, 2):.2f}" if entry.duration_minutes is not None else ''
+                notes = entry.notes or ''
+                html += f"""
+                <tr>
+                    <td>{event}</td>
+                    <td>{lot_id}</td>
+                    <td>{lot_type}</td>
+                    <td>{start_time}</td>
+                    <td>{end_time}</td>
+                    <td>{duration_hrs}</td>
+                    <td>{notes}</td>
+                </tr>
+                """
+            html += f"""
+            </table>
+            <p>Report generated on: {{datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}}</p>
+        </body>
+        </html>
+        """
 
     # Inject any already-hour/percent/count metrics (won’t convert; will override if keys match)
     # You can pass keys identical to those in derived_kpis to override, or add new ones.
